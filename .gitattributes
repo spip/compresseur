@@ -1,0 +1,10 @@
+* text=auto !eol
+/compresseur_pipeline.php -text
+filtres/compresseur.php -text
+formulaires/configurer_compresseur.html -text
+formulaires/configurer_compresseur.php -text
+images/compresseur-24.png -text
+inc/compresseur.php -text
+lib/JavascriptPacker/class.JavaScriptPacker.php -text
+/plugin.xml -text
+prive/configurer/compresseur.html -text
