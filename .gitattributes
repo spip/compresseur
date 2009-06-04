@@ -8,3 +8,4 @@ inc/compresseur.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 /plugin.xml -text
 prive/configurer/compresseur.html -text
+tests/compacte.html -text
