@@ -1,4 +1,5 @@
 * text=auto !eol
+/compresseur_http.php -text
 /compresseur_pipeline.php -text
 filtres/compresseur.php -text
 formulaires/configurer_compresseur.html -text
