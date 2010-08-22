@@ -192,7 +192,7 @@ function filtre_cache_static($scripts,$type='js'){
 			}
 
 			// calcul du % de compactage
-			$pc = intval(1000*strlen($fichier)/$total)/10;
+			$pc = ($total?intval(1000*strlen($fichier)/$total)/10:0);
 			$comms = "compact [\n\t".join("\n\t", $comms)."\n] $pc%";
 			$fichier = "/* $comms */\n\n".$fichier;
 
