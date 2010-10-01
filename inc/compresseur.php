@@ -1,5 +1,8 @@
 <?php
 
+if (!defined('_COMPRESSEUR_HEAD_JS'))
+	define('_COMPRESSEUR_HEAD_JS',"<script type='text/javascript' src='@src@'></script>");
+
 // http://doc.spip.org/@compacte_css
 function compacte_css ($contenu) {
 	// nettoyer la css de tout ce qui sert pas
@@ -77,8 +80,8 @@ function compacte_head_js($flux) {
 	if (list($src,$comms) = filtre_cache_static($scripts,'js')){
 		$scripts = array_keys($scripts);
 		$flux = str_replace(reset($scripts),
-			$comms
-			."<script type='text/javascript' src='$src'></script>\n",$flux);
+			$comms .str_replace('@src@',$src,_COMPRESSEUR_HEAD_JS)."\n",
+			$flux);
 		$flux = str_replace($scripts,"",$flux);
 	}
 
