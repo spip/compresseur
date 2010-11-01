@@ -10,3 +10,6 @@ inc/compresseur.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 /plugin.xml -text
 tests/compacte.html -text
+tests/compacte_css.html -text
+tests/css/expected.css -text
+tests/css/source.css -text
