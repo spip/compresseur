@@ -127,6 +127,7 @@ function compacte_head_css($flux) {
 			)
 		)) {
 			$media = strval(extraire_attribut($s, 'media'));
+			if ($media==='') $media='all';
 			if ($r)
 				$css[$media][$s] = explode('&',
 					str_replace('&amp;', '&', $r[2]), 2);
