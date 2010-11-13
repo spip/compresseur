@@ -7,7 +7,6 @@ csstidy/class.csstidy.php -text
 csstidy/class.csstidy_optimise.php -text
 csstidy/class.csstidy_print.php -text
 csstidy/data.inc.php -text
-csstidy/testing/auto-testing.php -text
 csstidy/testing/base.css -text
 csstidy/testing/css_results.php -text
 csstidy/testing/fisubsilver.css -text
