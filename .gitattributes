@@ -1,6 +1,16 @@
 * text=auto !eol
 /compresseur_http.php -text
 /compresseur_pipeline.php -text
+csstidy/COPYING -text
+csstidy/README -text
+csstidy/class.csstidy.php -text
+csstidy/class.csstidy_optimise.php -text
+csstidy/class.csstidy_print.php -text
+csstidy/data.inc.php -text
+csstidy/testing/auto-testing.php -text
+csstidy/testing/base.css -text
+csstidy/testing/css_results.php -text
+csstidy/testing/fisubsilver.css -text
 filtres/compresseur.php -text
 formulaires/configurer_compresseur.html -text
 formulaires/configurer_compresseur.php -text
