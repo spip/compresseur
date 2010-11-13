@@ -19,6 +19,10 @@ inc/compresseur.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 /plugin.xml -text
 tests/compacte.html -text
-tests/compacte_css.html -text
+tests/compacte_css.php -text
 tests/css/expected.css -text
+tests/css/expected_highest_screen.css -text
+tests/css/expected_more.css -text
+tests/css/expected_more_screen.css -text
 tests/css/source.css -text
+tests/csstidy.php -text
