@@ -16,4 +16,3 @@ tests/css/expected_highest_screen.css -text
 tests/css/expected_more.css -text
 tests/css/expected_more_screen.css -text
 tests/css/source.css -text
-tests/csstidy.php -text
