@@ -15,9 +15,11 @@ function compacte_css ($contenu) {
 	$contenu = preg_replace(",\s(?=\s),Ums","",$contenu); // pas d'espaces consecutifs
 	$contenu = preg_replace("/\s?({|;|,|:)\s?/ms","$1",$contenu); // pas d'espaces dans les declarations css
 	$contenu = preg_replace("/\s}/ms","}",$contenu); // pas d'espaces dans les declarations css
-	// Provoque incompatibilite dans filtres MSIE
-	//$contenu = preg_replace(",#([0-9a-f])(\\1)([0-9a-f])(\\3)([0-9a-f])(\\5),i","#$1$3$5",$contenu); // passser les codes couleurs en 3 car si possible
-	$contenu = preg_replace(",([^{}]*){},Ums"," ",$contenu); // supprimer les declarations vides
+	// passser les codes couleurs en 3 car si possible
+	// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
+	$contenu = preg_replace(";([:\s,(])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6)(?=[^\w\-]);i","$1#$2$4$6",$contenu);
+	// supprimer les declarations vides
+	$contenu = preg_replace(",\s([^{}]*){},Ums"," ",$contenu);
 	$contenu = trim($contenu);
 
 	return $contenu;
