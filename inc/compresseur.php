@@ -19,7 +19,7 @@ function compacte_css ($contenu) {
 	// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
 	$contenu = preg_replace(";([:\s,(])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6)(?=[^\w\-]);i","$1#$2$4$6",$contenu);
 	// supprimer les declarations vides
-	$contenu = preg_replace(",\s([^{}]*){},Ums"," ",$contenu);
+	$contenu = preg_replace(",(^|})([^{}]*){},Ums","$1",$contenu);
 	$contenu = trim($contenu);
 
 	return $contenu;
