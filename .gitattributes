@@ -5,6 +5,7 @@ filtres/compresseur.php -text
 formulaires/configurer_compresseur.html -text
 formulaires/configurer_compresseur.php -text
 images/compresseur-128.png -text
+images/compresseur-24.png -text
 images/compresseur-32.png -text
 inc/compresseur.php -text
 inc/compresseur_concatener.php -text
