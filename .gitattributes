@@ -11,6 +11,7 @@ inc/compresseur.php -text
 inc/compresseur_concatener.php -text
 inc/compresseur_embarquer.php -text
 inc/compresseur_minifier.php -text
+lang/compresseur_fr.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 lib/minify_html/class.minify_html.php -text
 /plugin.xml -text
