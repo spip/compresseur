@@ -11,6 +11,7 @@ inc/compresseur.php -text
 inc/compresseur_concatener.php -text
 inc/compresseur_embarquer.php -text
 inc/compresseur_minifier.php -text
+lang/compresseur.xml -text
 lang/compresseur_ar.php -text
 lang/compresseur_ast.php -text
 lang/compresseur_br.php -text
