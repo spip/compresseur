@@ -62,6 +62,7 @@ function compacte_head_js($flux) {
 	$flux_nocomment = preg_replace(",<!--.*-->,Uims","",$flux);
 	foreach (extraire_balises($flux_nocomment,'script') as $s) {
 		if (extraire_attribut($s, 'type') === 'text/javascript'
+		AND is_null(extraire_attribut($s, 'id')) # script avec un id : pas touche
 		AND $src = extraire_attribut($s, 'src')
 		AND !strlen(strip_tags($s))
 		AND (
