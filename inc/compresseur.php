@@ -1,5 +1,7 @@
 <?php
 
+if (!defined("_ECRIRE_INC_VERSION")) return;
+
 function compacte_ecrire_balise_script_dist($src){
 	return "<script type='text/javascript' src='$src'></script>";
 }
