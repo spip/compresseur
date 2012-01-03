@@ -40,6 +40,7 @@ lang/compresseur_tr.php -text
 lang/compresseur_uk.php -text
 lang/paquet-compresseur.xml -text
 lang/paquet-compresseur_en.php -text
+lang/paquet-compresseur_sk.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 lib/minify_html/class.minify_html.php -text
 tests/compacte.html -text
