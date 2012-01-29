@@ -1,5 +1,6 @@
 * text=auto !eol
 /compresseur_fonctions.php -text
+/compresseur_ieconfig.php -text
 /compresseur_options.php -text
 /compresseur_pipeline.php -text
 formulaires/configurer_compresseur.html -text
