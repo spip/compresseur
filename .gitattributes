@@ -95,6 +95,7 @@ lib/csstidy/testing/unit-tests/class.csstidy_csst.php -text
 lib/csstidy/testing/unit-tests/class.csstidy_harness.php -text
 lib/csstidy/testing/unit-tests/class.csstidy_reporter.php -text
 lib/csstidy/testing/unit-tests/csst/README -text
+lib/csstidy/testing/unit-tests/csst/print-plain/atvalues.csst -text
 lib/csstidy/testing/unit-tests/csst/print-plain/font-face-atmedia-2.csst -text
 lib/csstidy/testing/unit-tests/csst/print-plain/font-face-atmedia.csst -text
 lib/csstidy/testing/unit-tests/csst/print-plain/ie-hacks.csst -text
