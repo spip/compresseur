@@ -134,7 +134,7 @@ class JavaScriptPacker {
 		$parser->add('/\'[^\'\\n\\r]*\'/',$this->IGNORE);
 		$parser->add('/"[^"\\n\\r]*"/', $this->IGNORE);
 		// remove comments
-		$parser->add('/\\/\\/[^\\n\\r]*[\\n\\r]/', ' ');
+		$parser->add('/\\/\\/[^\\n\\r]*[\\n\\r]/', "\n");
 		$parser->add('/\\/\\*[^*]*\\*+([^\\/][^*]*\\*+)*\\//', ' ');
 		// protect regular expressions
 		$parser->add('/\\s+(\\/[^\\/\\n\\r\\*][^\\/\\n\\r]*\\/g?i?)/', '$2'); // IGNORE
