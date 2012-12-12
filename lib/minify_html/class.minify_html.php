@@ -6,6 +6,8 @@
  * le passage du compacteur HTML
  * (c'etait le cas du bouton statistiques du formulaire admin par exemple)
  *
+ * On permet de conserver également tout commentaire commençant par <!--keepme: -->
+ *
 **/
 class Minify_HTML_SPIP extends Minify_HTML {
 
@@ -15,10 +17,11 @@ class Minify_HTML_SPIP extends Minify_HTML {
         return $min->process();
     }
 
-    // le cas extras doit etre conserve dans les commentaires.
+    // le cas extras doit etre conserve dans les commentaires, ainsi que 'keepme:'
     protected function _commentCB($m)
     {
         if ($m[1] === 'extra') return $m[0];
+        if ($m[1] AND $m[1][0] === 'k' AND substr($m[1],0,7) === 'keepme:') return $m[0];
         return parent::_commentCB($m);
     }
 }
