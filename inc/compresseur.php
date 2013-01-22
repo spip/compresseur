@@ -3,29 +3,36 @@
 /***************************************************************************\
  *  SPIP, Systeme de publication pour l'internet                           *
  *                                                                         *
- *  Copyright (c) 2001-2011                                                *
+ *  Copyright (c) 2001-2012                                                *
  *  Arnaud Martin, Antoine Pitrou, Philippe Riviere, Emmanuel Saint-James  *
  *                                                                         *
  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
+/**
+ * Fonctions d'aide pour le compresseur
+ * 
+ * @package SPIP\Compresseur\Fonctions
+ */
 if (!defined("_ECRIRE_INC_VERSION")) return;
 
 /**
- * Ecrire la balise javascript pour inserer le fichier compresse
- * C'est cette fonction qui decide ou il est le plus pertinent
- * d'inserer le fichier, et dans quelle forme d'ecriture
+ * Ecrire la balise javascript pour insérer le fichier compressé
+ * 
+ * C'est cette fonction qui décide où il est le plus pertinent
+ * d'insérer le fichier, et dans quelle forme d'ecriture
  *
  * @param string $flux
- *   contenu du head nettoye des fichiers qui ont ete compresse
+ *   Contenu du head nettoyé des fichiers qui ont été compressé
  * @param int $pos
- *   position initiale du premier fichier inclu dans le fichier compresse
+ *   Position initiale du premier fichier inclu dans le fichier compressé
  * @param string $src
- *   nom du fichier compresse
+ *   Nom du fichier compressé
  * @param string $comments
- *   commentaires a inserer devant
+ *   Commentaires à insérer devant
  * @return string
+ *   Code HTML de la balise <script>
  */
 function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
 	$comments .= "<script type='text/javascript' src='$src'></script>";
@@ -34,20 +41,23 @@ function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
 }
 
 /**
- * Ecrire la balise css pour inserer le fichier compresse
- * C'est cette fonction qui decide ou il est le plus pertinent
- * d'inserer le fichier, et dans quelle forme d'ecriture
+ * Ecrire la balise CSS pour insérer le fichier compressé
+ * 
+ * C'est cette fonction qui décide ou il est le plus pertinent
+ * d'insérer le fichier, et dans quelle forme d'écriture
  *
  * @param string $flux
- *   contenu du head nettoye des fichiers qui ont ete compresse
+ *   Contenu du head nettoyé des fichiers qui ont ete compressé
  * @param int $pos
- *   position initiale du premier fichier inclu dans le fichier compresse
+ *   Position initiale du premier fichier inclu dans le fichier compressé
  * @param string $src
- *   nom du fichier compresse
+ *   Nom du fichier compressé
  * @param string $comments
- *   commentaires a inserer devant
+ *   Commentaires à insérer devant
  * @param string $media
+ *   Type de media si précisé (print|screen...)
  * @return string
+ *   Code HTML de la balise <link>
  */
 function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media=""){
 	$comments .= "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
@@ -56,12 +66,13 @@ function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", 
 }
 
 /**
- * Extraire les balises CSS a compacter et retourner un tableau
- * balise => src
- *
- * @param  $flux
- * @param  $url_base
+ * Extraire les balises CSS à compacter
+ * 
+ * @param string $flux
+ *     Contenu HTML dont on extrait les balises CSS
+ * @param string $url_base
  * @return array
+ *     Couples (balise => src)
  */
 function compresseur_extraire_balises_css_dist($flux, $url_base){
 	$balises = extraire_balises($flux,'link');
@@ -80,11 +91,13 @@ function compresseur_extraire_balises_css_dist($flux, $url_base){
 }
 
 /**
- * Extraire les balises JS a compacter et retoruner un tableau
- * balise => src
- * @param  $flux
- * @param  $url_base
+ * Extraire les balises JS à compacter
+ * 
+ * @param string $flux
+ *     Contenu HTML dont on extrait les balises CSS
+ * @param string $url_base
  * @return array
+ *     Couples (balise => src)
  */
 function compresseur_extraire_balises_js_dist($flux, $url_base){
 	$balises = extraire_balises($flux,'script');
@@ -100,15 +113,18 @@ function compresseur_extraire_balises_js_dist($flux, $url_base){
 }
 
 /**
- * Compacter (concatener+minifier) les fichiers format css ou js
- * du head. Reperer fichiers statiques vs url squelettes
- * Compacte le tout dans un fichier statique pose dans local/
+ * Compacter (concaténer+minifier) les fichiers format CSS ou JS
+ * du head.
+ *
+ * Repérer fichiers statiques vs. url squelettes
+ * Compacte le tout dans un fichier statique posé dans local/
  *
  * @param string $flux
- *  contenu du <head> de la page html
+ *    Contenu du <head> de la page html
  * @param string $format
- *  css ou js
+ *    css ou js
  * @return string
+ *    Contenu compressé du <head> de la page html
  */
 function compacte_head_files($flux,$format) {
 	$url_base = url_de_base();
@@ -174,27 +190,29 @@ function compacte_head_files($flux,$format) {
 
 
 /**
- * lister les fonctions de preparation des feuilles css
+ * Lister les fonctions de préparation des feuilles css
  * avant minification
  * 
  * @return array
+ *     Liste des fonctions à appliquer sur les feuilles CSS
  */
 function compresseur_liste_fonctions_prepare_css(){
 	static $fonctions = null;
 
 	if (is_null($fonctions)){
-		$fonctions = array('urls_absolues_css');
+		$fonctions = array('css_resolve_atimport','urls_absolues_css');
 		// les fonctions de preparation aux CSS peuvent etre personalisees
 		// via la globale $compresseur_filtres_css sous forme de tableau de fonctions ordonnees
 		if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
 			$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
 	}
-  return $fonctions;
+	return $fonctions;
 }
 
 
 /**
- * Preparer un fichier CSS avant sa minification
+ * Préparer un fichier CSS avant sa minification
+ * 
  * @param string $css
  * @param bool|string $is_inline
  * @param string $fonctions
@@ -222,7 +240,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 		return $file;
 
 	if ($url_absolue_css==$css){
-		if (strncmp($GLOBALS['meta']['adresse_site'],$css,$l=strlen($GLOBALS['meta']['adresse_site']))!=0
+		if (strncmp($GLOBALS['meta']['adresse_site']."/",$css,$l=strlen($GLOBALS['meta']['adresse_site']."/"))!=0
 		 OR !lire_fichier(_DIR_RACINE . substr($css,$l), $contenu)){
 		 		include_spip('inc/distant');
 		 		if (!$contenu = recuperer_page($css))
@@ -244,7 +262,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 }
 
 /**
- * Preparer du contenu CSS inline avant minification
+ * Préparer du contenu CSS inline avant minification
  * 
  * @param string $contenu
  * @param string $url_base
@@ -265,3 +283,60 @@ function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctio
 	return $contenu;
 }
 
+/**
+ * Resoudre et inliner les @import
+ * ceux-ci ne peuvent etre presents qu'en debut de CSS et on ne veut pas changer l'ordre des directives
+ *
+ * @param string $contenu
+ * @param string $url_base
+ * @return string
+ */
+function css_resolve_atimport($contenu, $url_base){
+	// vite si rien a faire
+	if (strpos($contenu,"@import")===false)
+		return $contenu;
+
+	while (preg_match(",@import ([^;]*);,UmsS",$contenu,$m)){
+		$url = $media = $erreur = "";
+		if (preg_match(",^\s*url\s*\(\s*['\"]?([^'\"]*)['\"]?\s*\),Ums",$m[1],$r)){
+			$url = $r[1];
+			$media = trim(substr($m[1],strlen($r[0])));
+		}
+		elseif(preg_match(",^\s*['\"]([^'\"]+)['\"],Ums",$m[1],$r)){
+			$url = $r[1];
+			$media = trim(substr($m[1],strlen($r[0])));
+		}
+		if (!$url){
+			$erreur = "Compresseur : <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
+		}
+		else {
+			$url = suivre_lien($url_base,$url);
+			// url relative ?
+			$root = protocole_implicite($GLOBALS['meta']['adresse_site']."/");
+			if (strncmp($url,$root,strlen($root))==0){
+				$url = _DIR_RACINE . substr($url,strlen($root));
+			}
+			else
+				$url = "http:$url";
+
+			// on renvoit dans la boucle pour que le fichier inclus soit aussi processe (@import, url absolue etc...)
+			$css = compresseur_callback_prepare_css($url);
+			if ($css==$url
+				OR !lire_fichier($css,$contenu_imported)){
+				$erreur = "Compresseur : url $url de <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
+			}
+			else {
+				if ($media){
+					$contenu_imported = "@media $media{\n$contenu_imported\n}\n";
+				}
+				$contenu = str_replace($m[0],$contenu_imported,$contenu);
+			}
+		}
+
+		if ($erreur){
+			$contenu = str_replace($m[0],"/* erreur @ import ".$m[1]."*/",$contenu);
+			erreur_squelette($erreur);
+		}
+	}
+	return $contenu;
+}
