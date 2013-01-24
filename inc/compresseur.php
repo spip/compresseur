@@ -296,6 +296,8 @@ function css_resolve_atimport($contenu, $url_base){
 	if (strpos($contenu,"@import")===false)
 		return $contenu;
 
+	$imports_non_resolvables = array();
+
 	while (preg_match(",@import ([^;]*);,UmsS",$contenu,$m)){
 		$url = $media = $erreur = "";
 		if (preg_match(",^\s*url\s*\(\s*['\"]?([^'\"]*)['\"]?\s*\),Ums",$m[1],$r)){
@@ -317,23 +319,34 @@ function css_resolve_atimport($contenu, $url_base){
 				$url = _DIR_RACINE . substr($url,strlen($root));
 			}
 			else {
-				// l'url peut être en protocole implicite // ou déjà avec un protocole http(s)://
-				if (substr($url,0,2) == '//') {
+				// si l'url a un protocole http(s):// on ne considère qu'on ne peut pas
+				// résoudre le stockage. Par exemple
+				// @import url(https://fonts.googleapis.com/css?family=Ubuntu);
+				// retournant un contenu différent en fonction navigateur
+				if (preg_match(',^https?://,', $url)) {
+					$imports_non_resolvables[] = $m[0];
+					$contenu = str_replace($m[0], '', $contenu);
+					$url = "";
+				} else {
+					// protocole implicite //
 					$url = "http:$url";
 				}
 			}
 
-			// on renvoit dans la boucle pour que le fichier inclus soit aussi processe (@import, url absolue etc...)
-			$css = compresseur_callback_prepare_css($url);
-			if ($css==$url
-				OR !lire_fichier($css,$contenu_imported)){
-				$erreur = "Compresseur : url $url de <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
-			}
-			else {
-				if ($media){
-					$contenu_imported = "@media $media{\n$contenu_imported\n}\n";
+			if ($url) {
+				// on renvoit dans la boucle pour que le fichier inclus
+				// soit aussi processe (@import, url absolue etc...)
+				$css = compresseur_callback_prepare_css($url);
+				if ($css==$url
+					OR !lire_fichier($css,$contenu_imported)){
+					$erreur = "Compresseur : url $url de <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
 				}
-				$contenu = str_replace($m[0],$contenu_imported,$contenu);
+				else {
+					if ($media){
+						$contenu_imported = "@media $media{\n$contenu_imported\n}\n";
+					}
+					$contenu = str_replace($m[0],$contenu_imported,$contenu);
+				}
 			}
 		}
 
@@ -342,5 +355,12 @@ function css_resolve_atimport($contenu, $url_base){
 			erreur_squelette($erreur);
 		}
 	}
+
+	// on remet chaque import non résolu en début du fichier
+	if ($imports_non_resolvables) {
+		$contenu = implode("\n", $imports_non_resolvables) . "\n" . $contenu;
+	}
+
+
 	return $contenu;
 }
