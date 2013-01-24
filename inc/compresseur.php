@@ -316,8 +316,12 @@ function css_resolve_atimport($contenu, $url_base){
 			if (strncmp($url,$root,strlen($root))==0){
 				$url = _DIR_RACINE . substr($url,strlen($root));
 			}
-			else
-				$url = "http:$url";
+			else {
+				// l'url peut être en protocole implicite // ou déjà avec un protocole http(s)://
+				if (substr($url,0,2) == '//') {
+					$url = "http:$url";
+				}
+			}
 
 			// on renvoit dans la boucle pour que le fichier inclus soit aussi processe (@import, url absolue etc...)
 			$css = compresseur_callback_prepare_css($url);
