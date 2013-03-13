@@ -43,9 +43,12 @@ lang/paquet-compresseur.xml -text
 lang/paquet-compresseur_ar.php -text
 lang/paquet-compresseur_de.php -text
 lang/paquet-compresseur_en.php -text
+lang/paquet-compresseur_eo.php -text
 lang/paquet-compresseur_es.php -text
 lang/paquet-compresseur_fa.php -text
 lang/paquet-compresseur_it.php -text
+lang/paquet-compresseur_lb.php -text
+lang/paquet-compresseur_nl.php -text
 lang/paquet-compresseur_pt_br.php -text
 lang/paquet-compresseur_ru.php -text
 lang/paquet-compresseur_sk.php -text
