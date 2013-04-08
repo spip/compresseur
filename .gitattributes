@@ -81,11 +81,9 @@ lib/csstidy/class.csstidy.php -text
 lib/csstidy/class.csstidy_ctype.php -text
 lib/csstidy/class.csstidy_optimise.php -text
 lib/csstidy/class.csstidy_print.php -text
-lib/csstidy/css_optimiser.php -text
 lib/csstidy/cssparse.css -text
 lib/csstidy/cssparsed.css -text
 lib/csstidy/data.inc.php -text
-lib/csstidy/lang.inc.php -text
 lib/csstidy/template.tpl -text
 lib/csstidy/template1.tpl -text
 lib/csstidy/template2.tpl -text
