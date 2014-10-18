@@ -65,6 +65,10 @@ lib/csstidy/class.csstidy.php -text
 lib/csstidy/class.csstidy_optimise.php -text
 lib/csstidy/class.csstidy_print.php -text
 lib/csstidy/data.inc.php -text
+lib/jQl/README -text
+lib/jQl/README.md -text
+lib/jQl/jQl.js -text
+lib/jQl/jQl.min.js -text
 lib/minify_html/class.minify_html.php -text
 tests/compacte.html -text
 tests/compacte_css.php -text
