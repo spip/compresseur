@@ -33,7 +33,6 @@ lang/compresseur_it.php -text
 lang/compresseur_it_fem.php -text
 lang/compresseur_lb.php -text
 lang/compresseur_nl.php -text
-lang/compresseur_oc_ni_mis.php -text
 lang/compresseur_pt.php -text
 lang/compresseur_pt_br.php -text
 lang/compresseur_ro.php -text
@@ -50,11 +49,9 @@ lang/paquet-compresseur_eo.php -text
 lang/paquet-compresseur_es.php -text
 lang/paquet-compresseur_fa.php -text
 lang/paquet-compresseur_fr_fem.php -text
-lang/paquet-compresseur_fr_tu.php -text
 lang/paquet-compresseur_it.php -text
 lang/paquet-compresseur_lb.php -text
 lang/paquet-compresseur_nl.php -text
-lang/paquet-compresseur_oc_ni_mis.php -text
 lang/paquet-compresseur_pt.php -text
 lang/paquet-compresseur_pt_br.php -text
 lang/paquet-compresseur_ru.php -text
