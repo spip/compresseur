@@ -59,6 +59,7 @@ lang/paquet-compresseur_pt.php -text
 lang/paquet-compresseur_pt_br.php -text
 lang/paquet-compresseur_ru.php -text
 lang/paquet-compresseur_sk.php -text
+lang/paquet-compresseur_uk.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 lib/csstidy/COPYING -text
 lib/csstidy/NEWS -text
