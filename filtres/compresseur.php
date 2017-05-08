@@ -6,7 +6,7 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
 // dans _DIR_VAR/cache_$format/
 // Si c'est un flux on le renvoit compacte
 // Si on ne sait pas compacter, on renvoie ce qu'on a recu
-// http://code.spip.net/@compacte
+// https://code.spip.net/@compacte
 function compacte($source, $format = null) {
 	if (!$format AND preg_match(',\.(js|css)$,', $source, $r))
 		$format = $r[1];
@@ -60,7 +60,7 @@ function compacte($source, $format = null) {
 //AddEncoding              gzip .gz
 //mod_gzip_item_include         file       \.(js|css)$
 //</IfModule>
-// http://code.spip.net/@compacte_head
+// https://code.spip.net/@compacte_head
 function compacte_head($flux){
 	include_spip('inc/compresseur');
 	if (!defined('_INTERDIRE_COMPACTE_HEAD')){

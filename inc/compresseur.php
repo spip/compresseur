@@ -10,7 +10,7 @@ function compacte_ecrire_balise_link_dist($src,$media=""){
 }
 
 
-// http://code.spip.net/@compacte_css
+// https://code.spip.net/@compacte_css
 function compacte_css ($contenu) {
 	// nettoyer la css de tout ce qui sert pas
 	$contenu = preg_replace(",/\*.*\*/,Ums","",$contenu); // pas de commentaires
@@ -29,7 +29,7 @@ function compacte_css ($contenu) {
 
 // Compacte du javascript grace a Dean Edward's JavaScriptPacker
 // utile pour prive/jquery.js par exemple
-// http://code.spip.net/@compacte_js
+// https://code.spip.net/@compacte_js
 function compacte_js($flux) {
 	// si la closure est demandee, on pourrait zapper cette etape
 	// mais avec le risque, en localhost, de depasser 200ko et d'echec
@@ -54,7 +54,7 @@ function compacte_js($flux) {
 // Appelee par compacte_head() si le webmestre le desire, cette fonction
 // compacte les scripts js dans un fichier statique pose dans local/
 // en entree : un <head> html.
-// http://code.spip.net/@compacte_head_js
+// https://code.spip.net/@compacte_head_js
 function compacte_head_js($flux) {
 	$url_base = url_de_base();
 	$url_page = substr(generer_url_public('A'), 0, -1);
@@ -103,7 +103,7 @@ function compacte_head_js($flux) {
 // Appelee par compacte_head() si le webmestre le desire, cette fonction
 // compacte les feuilles de style css dans un fichier statique pose dans local/
 // en entree : un <head> html.
-// http://code.spip.net/@compacte_head_css
+// https://code.spip.net/@compacte_head_css
 function compacte_head_css($flux) {
 	$url_base = url_de_base();
 	$url_page = substr(generer_url_public('A'), 0, -1);
@@ -161,7 +161,7 @@ function compacte_head_css($flux) {
 }
 
 
-// http://code.spip.net/@filtre_cache_static
+// https://code.spip.net/@filtre_cache_static
 function filtre_cache_static($scripts,$type='js'){
 	$nom = "";
 	if (!is_array($scripts) && $scripts) $scripts = array($scripts);
