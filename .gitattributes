@@ -63,7 +63,7 @@ lang/paquet-compresseur_uk.php -text
 lib/JavascriptPacker/class.JavaScriptPacker.php -text
 lib/csstidy/COPYING -text
 lib/csstidy/NEWS -text
-lib/csstidy/README -text
+lib/csstidy/README.md -text
 lib/csstidy/class.csstidy.php -text
 lib/csstidy/class.csstidy_optimise.php -text
 lib/csstidy/class.csstidy_print.php -text
