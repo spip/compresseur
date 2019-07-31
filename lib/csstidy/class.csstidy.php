@@ -33,31 +33,6 @@
  */
 
 /**
- * Defines ctype functions if required.
- *
- * @TODO: Make these methods of CSSTidy.
- * @since 1.0.0
- */
-if (!function_exists('ctype_space')){
-	/* ctype_space Check for whitespace character(s) */
-	function ctype_space($text){
-		return (1===preg_match("/^[ \r\n\t\f]+$/", $text));
-	}
-}
-if (!function_exists('ctype_alpha')){
-	/* ctype_alpha Check for alphabetic character(s) */
-	function ctype_alpha($text){
-		return (1===preg_match('/^[a-zA-Z]+$/', $text));
-	}
-}
-if (!function_exists('ctype_xdigit')){
-	/* ctype_xdigit Check for HEX character(s) */
-	function ctype_xdigit($text){
-		return (1===preg_match('/^[a-fA-F0-9]+$/', $text));
-	}
-}
-
-/**
  * Defines constants
  * @todo //TODO: make them class constants of csstidy
  */
@@ -95,7 +70,7 @@ require('class.csstidy_optimise.php');
  * An online version should be available here: http://cdburnerxp.se/cssparse/css_optimiser.php
  * @package csstidy
  * @author Florian Schmitz (floele at gmail dot com) 2005-2006
- * @version 1.6.4
+ * @version 1.7.0
  */
 class csstidy {
 
@@ -148,7 +123,7 @@ class csstidy {
 	 * @var string
 	 * @access private
 	 */
-	public $version = '1.6.4';
+	public $version = '1.7.0';
 	/**
 	 * Stores the settings
 	 * @var array
@@ -416,7 +391,17 @@ class csstidy {
 	 */
 	public function _add_token($type, $data, $do = false) {
 		if ($this->get_cfg('preserve_css') || $do) {
-			$this->tokens[] = array($type, ($type == COMMENT or $type == IMPORTANT_COMMENT) ? $data : trim($data));
+			// nested @... : if opening a new part we just closed, remove the previous closing instead of adding opening
+			if ($type === AT_START
+				and count($this->tokens)
+				and $last = end($this->tokens)
+				and $last[0] === AT_END
+				and $last[1] === trim($data)) {
+				array_pop($this->tokens);
+			}
+			else {
+				$this->tokens[] = array($type, ($type == COMMENT or $type == IMPORTANT_COMMENT) ? $data : trim($data));
+			}
 		}
 	}
 
@@ -603,6 +588,7 @@ class csstidy {
 		$this->print->input_css = $string;
 		$string = str_replace("\r\n", "\n", $string) . ' ';
 		$cur_comment = '';
+		$cur_at = '';
 
 		for ($i = 0, $size = strlen($string); $i < $size; $i++) {
 			if ($string{$i} === "\n" || $string{$i} === "\r") {
@@ -619,21 +605,21 @@ class csstidy {
 							$this->from[] = 'at';
 						} elseif ($string{$i} === '{') {
 							$this->status = 'is';
-							$this->at = $this->css_new_media_section($this->at);
+							$this->at = $this->css_new_media_section($this->at, $cur_at);
 							$this->_add_token(AT_START, $this->at);
 						} elseif ($string{$i} === ',') {
-							$this->at = trim($this->at) . ',';
+							$cur_at = trim($cur_at) . ',';
 						} elseif ($string{$i} === '\\') {
-							$this->at .= $this->_unicode($string, $i);
+							$cur_at .= $this->_unicode($string, $i);
 						}
 						// fix for complicated media, i.e @media screen and (-webkit-min-device-pixel-ratio:1.5)
 						elseif (in_array($string{$i}, array('(', ')', ':', '.', '/'))) {
-							$this->at .= $string{$i};
+							$cur_at .= $string{$i};
 						}
 					} else {
-						$lastpos = strlen($this->at) - 1;
-						if (!( (ctype_space($this->at{$lastpos}) || $this->is_token($this->at, $lastpos) && $this->at{$lastpos} === ',') && ctype_space($string{$i}))) {
-							$this->at .= $string{$i};
+						$lastpos = strlen($cur_at) - 1;
+						if (!( (ctype_space($cur_at{$lastpos}) || $this->is_token($cur_at, $lastpos) && $cur_at{$lastpos} === ',') && ctype_space($string{$i}))) {
+							$cur_at .= $string{$i};
 						}
 					}
 					break;
@@ -650,15 +636,16 @@ class csstidy {
 							$this->invalid_at = true;
 							foreach ($at_rules as $name => $type) {
 								if (!strcasecmp(substr($string, $i + 1, strlen($name)), $name)) {
-									($type === 'at') ? $this->at = '@' . $name : $this->selector = '@' . $name;
+									($type === 'at') ? $cur_at = '@' . $name : $this->selector = '@' . $name;
 									if ($type === 'atis') {
 										$this->next_selector_at = ($this->next_selector_at?$this->next_selector_at:($this->at?$this->at:DEFAULT_AT));
-										$this->at = $this->css_new_media_section(' ');
+										$this->at = $this->css_new_media_section($this->at, ' ', true);
 										$type = 'is';
 									}
 									$this->status = $type;
 									$i += strlen($name);
 									$this->invalid_at = false;
+									break;
 								}
 							}
 
@@ -684,20 +671,21 @@ class csstidy {
 							$this->invalid_at = false;
 							$this->status = 'is';
 							if ($this->next_selector_at) {
-								$this->at = $this->css_new_media_section($this->next_selector_at);
+								$this->at = $this->css_close_media_section($this->at);
+								$this->at = $this->css_new_media_section($this->at, $this->next_selector_at);
 								$this->next_selector_at = '';
 							}
 						} elseif ($string{$i} === '{') {
 							$this->status = 'ip';
 							if ($this->at == '') {
-								$this->at = $this->css_new_media_section(DEFAULT_AT);
+								$this->at = $this->css_new_media_section($this->at, DEFAULT_AT);
 							}
 							$this->selector = $this->css_new_selector($this->at,$this->selector);
 							$this->_add_token(SEL_START, $this->selector);
 							$this->added = false;
 						} elseif ($string{$i} === '}') {
 							$this->_add_token(AT_END, $this->at);
-							$this->at = '';
+							$this->at = $this->css_close_media_section($this->at);
 							$this->selector = '';
 							$this->sel_separate = array();
 						} elseif ($string{$i} === ',') {
@@ -739,7 +727,8 @@ class csstidy {
 							$this->selector = '';
 							$this->property = '';
 							if ($this->next_selector_at) {
-								$this->at = $this->css_new_media_section($this->next_selector_at);
+								$this->at = $this->css_close_media_section($this->at);
+								$this->at = $this->css_new_media_section($this->at, $this->next_selector_at);
 								$this->next_selector_at = '';
 							}
 						} elseif ($string{$i} === ';') {
@@ -804,7 +793,7 @@ class csstidy {
 						}
 						if (($string{$i} === '}' || $string{$i} === ';' || $pn) && !empty($this->selector)) {
 							if ($this->at == '') {
-								$this->at = $this->css_new_media_section(DEFAULT_AT);
+								$this->at = $this->css_new_media_section($this->at,DEFAULT_AT);
 							}
 
 							// case settings
@@ -857,7 +846,8 @@ class csstidy {
 							$this->invalid_at = false;
 							$this->selector = '';
 							if ($this->next_selector_at) {
-								$this->at = $this->css_new_media_section($this->next_selector_at);
+								$this->at = $this->css_close_media_section($this->at);
+								$this->at = $this->css_new_media_section($this->at, $this->next_selector_at);
 								$this->next_selector_at = '';
 							}
 						}
@@ -888,7 +878,7 @@ class csstidy {
 						$this->str_char[] = $string{$i} === '(' ? ')' : $string{$i};
 						$this->from[] = 'instr';
 						$this->quoted_string[] = ($_str_char === ')' && $string{$i} !== '(' && trim($_cur_string)==='(')?$_quoted_string:!($string{$i} === '(');
-						continue;
+						continue 2;
 					}
 
 					if ($_str_char !== ")" && ($string{$i} === "\n" || $string{$i} === "\r") && !($string{$i - 1} === '\\' && !$this->escaped($string, $i - 1))) {
@@ -1091,35 +1081,83 @@ class csstidy {
 	}
 
 	/**
-	 * Start a new media section.
-	 * Check if the media is not already known,
-	 * else rename it with extra spaces
-	 * to avoid merging
+	 * Check if a current media section is the continuation of the last one
+	 * if not inc the name of the media section to avoid a merging
 	 *
-	 * @param string $media
-	 * @return string
+	 * @param int|string $media
+	 * @return int|string
 	 */
-	public function css_new_media_section($media) {
-		if ($this->get_cfg('preserve_css')) {
+	public function css_check_last_media_section_or_inc($media) {
+		// are we starting?
+		if (!$this->css || !is_array($this->css) || empty($this->css)) {
 			return $media;
 		}
 
 		// if the last @media is the same as this
 		// keep it
-		if (!$this->css || !is_array($this->css) || empty($this->css)) {
-			return $media;
-		}
 		end($this->css);
 		$at = key($this->css);
 		if ($at == $media) {
 			return $media;
 		}
+
+		// else inc the section in the array
 		while (isset($this->css[$media]))
 			if (is_numeric($media))
 				$media++;
 			else
 				$media .= ' ';
 		return $media;
+	}
+
+	/**
+	 * Start a new media section.
+	 * Check if the media is not already known,
+	 * else rename it with extra spaces
+	 * to avoid merging
+	 *
+	 * @param string $current_media
+	 * @param string $media
+	 * @param bool $at_root
+	 * @return string
+	 */
+	public function css_new_media_section($current_media, $new_media, $at_root = false) {
+		if ($this->get_cfg('preserve_css')) {
+			return $new_media;
+		}
+
+		// if we already are in a media and CSS level is 3, manage nested medias
+		if ($current_media
+			&& !$at_root
+			// numeric $current_media means DEFAULT_AT or inc
+			&& !is_numeric($current_media)
+			&& strncmp($this->get_cfg('css_level'), 'CSS3', 4) == 0) {
+
+			$new_media = rtrim($current_media) . "{" . rtrim($new_media);
+		}
+
+		return $this->css_check_last_media_section_or_inc($new_media);
+	}
+
+	/**
+	 * Close a media section
+	 * Find the parent media we were in before or the root
+	 * @param $current_media
+	 * @return string
+	 */
+	public function css_close_media_section($current_media) {
+		if ($this->get_cfg('preserve_css')) {
+			return '';
+		}
+
+		if (strpos($current_media, '{') !== false) {
+			$current_media = explode('{', $current_media);
+			array_pop($current_media);
+			$current_media = implode('{', $current_media);
+			return $current_media;
+		}
+
+		return '';
 	}
 
 	/**
