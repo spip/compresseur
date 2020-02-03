@@ -1,4 +1,10 @@
-<traduction module="compresseur" gestionnaire="salvatore" url="https://trad.spip.net" source="svn://zone.spip.org/spip-zone/_core_/plugins/compresseur/lang/" reference="fr">
+<traduction
+	module="compresseur"
+	id="compresseur--compresseur-16928"
+	gestionnaire="salvatore"
+	url="https://trad.spip.net"
+	source="svn://zone.spip.org/spip-zone/_core_/plugins/compresseur/lang"
+	reference="fr">
 	<langue code="ar" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ar" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="George" lien="https://trad.spip.net/auteur/جورج-قندلفت" />
 	</langue>
@@ -11,8 +17,7 @@
 	<langue code="ca" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ca" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
 		<traducteur nom="merce" lien="https://trad.spip.net/auteur/merce" />
 	</langue>
-	<langue code="co" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=co" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
-	</langue>
+	<langue code="co" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=co" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00" />
 	<langue code="de" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=de" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="klaus++" lien="https://trad.spip.net/auteur/klaus" />
 	</langue>
@@ -30,13 +35,11 @@
 		<traducteur nom="dani" lien="https://trad.spip.net/auteur/dani" />
 		<traducteur nom="jotacese" lien="https://trad.spip.net/auteur/jotacese" />
 	</langue>
-	<langue code="eu" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=eu" total="10" traduits="3" relire="0" modifs="2" nouveaux="5" pourcent="30.00">
-	</langue>
+	<langue code="eu" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=eu" total="10" traduits="3" relire="0" modifs="2" nouveaux="5" pourcent="30.00" />
 	<langue code="fa" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=fa" total="10" traduits="8" relire="0" modifs="0" nouveaux="2" pourcent="80.00">
 		<traducteur nom="Davood Hossein" lien="https://trad.spip.net/auteur/davood-hossein" />
 	</langue>
-	<langue code="fr" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=fr" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
-	</langue>
+	<langue code="fr" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=fr" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00" />
 	<langue code="fr_fem" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=fr_fem" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="b_b" lien="https://trad.spip.net/auteur/b_b" />
 		<traducteur nom="denisb" lien="https://trad.spip.net/auteur/denisb" />
@@ -44,15 +47,12 @@
 	<langue code="fr_tu" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=fr_tu" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="RealET" lien="https://trad.spip.net/auteur/realet" />
 	</langue>
-	<langue code="gl" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=gl" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
-	</langue>
-	<langue code="he" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=he" total="10" traduits="1" relire="0" modifs="0" nouveaux="9" pourcent="10.00">
-	</langue>
+	<langue code="gl" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=gl" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00" />
+	<langue code="he" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=he" total="10" traduits="1" relire="0" modifs="0" nouveaux="9" pourcent="10.00" />
 	<langue code="it" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=it" total="10" traduits="8" relire="0" modifs="0" nouveaux="2" pourcent="80.00">
 		<traducteur nom="phante" lien="https://trad.spip.net/auteur/phante" />
 	</langue>
-	<langue code="it_fem" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=it_fem" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
-	</langue>
+	<langue code="it_fem" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=it_fem" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00" />
 	<langue code="ja" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ja" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="origenius" lien="https://trad.spip.net/auteur/origenius" />
 	</langue>
@@ -74,18 +74,15 @@
 	<langue code="pt_br" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=pt_br" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="Ricardo Porto" lien="https://trad.spip.net/auteur/ricardo-porto" />
 	</langue>
-	<langue code="ro" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ro" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
-	</langue>
+	<langue code="ro" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ro" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00" />
 	<langue code="ru" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ru" total="10" traduits="8" relire="0" modifs="0" nouveaux="2" pourcent="80.00">
 		<traducteur nom="Serge Markitanenko" lien="https://trad.spip.net/auteur/serge-markitanenko" />
 	</langue>
 	<langue code="sk" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=sk" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="jaro" lien="https://trad.spip.net/auteur/jaro" />
 	</langue>
-	<langue code="sv" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=sv" total="10" traduits="2" relire="0" modifs="1" nouveaux="7" pourcent="20.00">
-	</langue>
-	<langue code="tr" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=tr" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
-	</langue>
+	<langue code="sv" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=sv" total="10" traduits="2" relire="0" modifs="1" nouveaux="7" pourcent="20.00" />
+	<langue code="tr" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=tr" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00" />
 	<langue code="uk" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=uk" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="olly" lien="https://trad.spip.net/auteur/olly" />
 	</langue>
