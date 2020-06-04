@@ -44,7 +44,7 @@ if (!defined("_ECRIRE_INC_VERSION")) {
  *     Tableau a 2 entrées retournant le nom du fichier et des commentaires HTML à insérer dans la page initiale
  */
 function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
-	$nom = "";
+	$nom_fichier = "";
 	if (!is_array($files) && $files) {
 		$files = array($files);
 	}
@@ -58,14 +58,14 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 		// si on renome une url a la volee pour enlever le var_mode=recalcul
 		// mais attention, il faut garder l'ordre initial pour la minification elle meme !
 		$dir = sous_repertoire(_DIR_VAR, 'cache-' . $format);
-		list($nom, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
+		list($nom_fichier, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 		if (
 			(defined('_VAR_MODE') and _VAR_MODE == 'recalcul')
-			or !file_exists($nom)
-			or filemtime($nom) < $lastmodified
+			or !file_exists($nom_fichier)
+			or filemtime($nom_fichier) < $lastmodified
 		) {
-			spip_log("concatener_fichiers: Recalculer $nom plus a jour", "compresseur" . _LOG_DEBUG);
-			$fichier = "";
+			spip_log("concatener_fichiers: Recalculer $nom_fichier plus a jour", "compresseur" . _LOG_DEBUG);
+			$concatenation = "";
 			$comms = array();
 			$total = 0;
 			$files2 = false;
@@ -112,43 +112,43 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 					}
 				}
 				// passer la balise html initiale en second argument
-				$fichier .= "/* $comm */\n" . $callback_min($contenu, $key) . "\n\n";
+				$concatenation .= "/* $comm */\n" . $callback_min($contenu, $key) . "\n\n";
 				$comms[] = $comm;
 				$total += strlen($contenu);
 			}
 
 			// calcul du % de compactage
-			$pc = intval(1000 * strlen($fichier) / $total) / 10;
+			$pc = intval(1000 * strlen($concatenation) / $total) / 10;
 			$comms = "compact [\n\t" . join("\n\t", $comms) . "\n] $pc%";
-			$fichier = "/* $comms */\n\n" . $fichier;
+			$concatenation = "/* $comms */\n\n" . $concatenation;
 
 			// si on a nettoye des &var_mode=recalcul : mettre a jour le nom
 			// on ecrit pas dans le nom initial, qui est de toute facon recherche qu'en cas de recalcul
 			// donc jamais utile
 			if ($files2) {
 				$files = $files2;
-				list($nom, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
+				list($nom_fichier, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 
-			$nom_tmp = $nom;
+			$nom_fichier_tmp = $nom_fichier;
 			$final_callback = (isset($callbacks['all_min']) ? $callbacks['all_min'] : false);
 			if ($final_callback) {
 				unset($callbacks['all_min']);
-				list($nom_tmp, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
+				list($nom_fichier_tmp, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 			// ecrire
-			ecrire_fichier_calcule_si_modifie($nom_tmp, $fichier);
+			ecrire_fichier_calcule_si_modifie($nom_fichier_tmp, $concatenation);
 
 			if ($final_callback) {
 				// closure compiler ou autre super-compresseurs
 				// a appliquer sur le fichier final
-				$encore = $final_callback($nom_tmp, $nom);
+				$encore = $final_callback($nom_fichier_tmp, $nom_fichier);
 				// si echec, on se contente de la compression sans cette callback
-				if ($encore !== $nom) {
+				if ($encore !== $nom_fichier) {
 					// ecrire
-					ecrire_fichier_calcule_si_modifie($nom, $fichier);
+					ecrire_fichier_calcule_si_modifie($nom_fichier, $concatenation);
 				}
-				// on ne supprime pas le fichier temporaire $nom_tmp
+				// on ne supprime pas le fichier temporaire $nom_fichier_tmp
 				// car il y a le risque qu'un process concurrent soit juste sur le point de le processer aussi et produirait alors du vide
 			}
 		}
@@ -157,7 +157,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 	}
 
 	// Le commentaire detaille n'apparait qu'au recalcul, pour debug
-	return array($nom, (isset($comms) and $comms) ? "<!-- $comms -->\n" : '');
+	return array($nom_fichier, (isset($comms) and $comms) ? "<!-- $comms -->\n" : '');
 }
 
 /**
