@@ -274,7 +274,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 
 	$file = basename($css, '.css');
 	$file = sous_repertoire(_DIR_VAR, 'cache-css')
-		. preg_replace(",(.*?)(_rtl|_ltr)?$,", "\\1-f-" . $sign . "\\2", $file)
+		. preg_replace(",^(.*?)(_rtl|_ltr)?$,", "\\1-f-" . $sign . "\\2", $file)
 		. '.css';
 
 	if ((@filemtime($file) > @filemtime($css))
