@@ -299,7 +299,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 	$contenu = compresseur_callback_prepare_css_inline($contenu, $url_absolue_css_implicite, $css, $fonctions);
 
 	// ecrire la css
-	if (!ecrire_fichier($file, $contenu)) {
+	if (!ecrire_fichier_calcule_si_modifie($file, $contenu)) {
 		return $css;
 	}
 
@@ -435,7 +435,7 @@ function css_regroup_atimport($nom_tmp, $nom) {
 	$imports = array_map("reset", $matches);
 	$contenu = str_replace($imports, "", $contenu);
 	$contenu = implode("\n", $imports) . "\n" . $contenu;
-	ecrire_fichier($nom, $contenu, true);
+	ecrire_fichier_calcule_si_modifie($nom, $contenu);
 
 	return $nom;
 }

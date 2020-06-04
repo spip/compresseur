@@ -93,7 +93,7 @@ function minifier($source, $format = null) {
 		$contenu = $minifier($contenu);
 
 		// ecrire le fichier destination, en cas d'echec renvoyer la source
-		if (ecrire_fichier($f, $contenu, true)) {
+		if (ecrire_fichier_calcule_si_modifie($f, $contenu)) {
 			return $f;
 		} else {
 			return $source;

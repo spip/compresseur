@@ -137,8 +137,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 				list($nom_tmp, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 			// ecrire
-			ecrire_fichier($nom_tmp, $fichier, true);
-			clearstatcache(true, $nom_tmp);
+			ecrire_fichier_calcule_si_modifie($nom_tmp, $fichier);
 
 			if ($final_callback) {
 				// closure compiler ou autre super-compresseurs
@@ -147,8 +146,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 				// si echec, on se contente de la compression sans cette callback
 				if ($encore !== $nom) {
 					// ecrire
-					ecrire_fichier($nom, $fichier, true);
-					clearstatcache(true, $nom);
+					ecrire_fichier_calcule_si_modifie($nom, $fichier);
 				}
 				// on ne supprime pas le fichier temporaire $nom_tmp
 				// car il y a le risque qu'un process concurrent soit juste sur le point de le processer aussi et produirait alors du vide
