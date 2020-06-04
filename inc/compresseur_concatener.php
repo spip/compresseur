@@ -58,11 +58,13 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 		// si on renome une url a la volee pour enlever le var_mode=recalcul
 		// mais attention, il faut garder l'ordre initial pour la minification elle meme !
 		$dir = sous_repertoire(_DIR_VAR, 'cache-' . $format);
-		$nom = $dir . md5(serialize($files) . serialize($callbacks)) . ".$format";
+		list($nom, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 		if (
 			(defined('_VAR_MODE') and _VAR_MODE == 'recalcul')
 			or !file_exists($nom)
+			or filemtime($nom) < $lastmodified
 		) {
+			spip_log("concatener_fichiers: Recalculer $nom plus a jour", "compresseur" . _LOG_DEBUG);
 			$fichier = "";
 			$comms = array();
 			$total = 0;
@@ -125,14 +127,14 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 			// donc jamais utile
 			if ($files2) {
 				$files = $files2;
-				$nom = $dir . md5(serialize($files) . serialize($callbacks)) . ".$format";
+				list($nom, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 
 			$nom_tmp = $nom;
 			$final_callback = (isset($callbacks['all_min']) ? $callbacks['all_min'] : false);
 			if ($final_callback) {
 				unset($callbacks['all_min']);
-				$nom_tmp = $dir . md5(serialize($files) . serialize($callbacks)) . ".$format";
+				list($nom_tmp, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 			// ecrire
 			ecrire_fichier($nom_tmp, $fichier, true);
@@ -158,6 +160,36 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 
 	// Le commentaire detaille n'apparait qu'au recalcul, pour debug
 	return array($nom, (isset($comms) and $comms) ? "<!-- $comms -->\n" : '');
+}
+
+/**
+ * Calculer le nom de fichier concatene
+ * en tenant compte des timestamps :
+ * un changement de timestamp ne doit pas modifier le nom mais bien forcer une mise a jour du fichier concat si besoin
+ * @param string $dir
+ * @param array $files
+ * @param array $callbacks
+ * @param string $format
+ * @return array
+ */
+function concatener_nom_fichier_concat($dir, $files, $callbacks, $format) {
+	$lastmodified = 0;
+	$file_wo_timestamp = [];
+	// on ignore les cles : seul le fichier inclu compte, pas la forme exacte de la balise html dans laquelle il est insere
+	foreach ($files as $k => $file) {
+		if (!is_array($file)){
+			if (strpos($file, "?")!==false){
+				$file = explode('?', $file, 2);
+				if (is_numeric(end($file))){
+					$lastmodified = max($lastmodified, end($file));
+				}
+				$file = reset($file);
+			}
+		}
+		$file_wo_timestamp[] = $file;
+	}
+	$nom_fichier_concat = $dir . md5(json_encode($file_wo_timestamp) . json_encode($callbacks)) . ".$format";
+	return array($nom_fichier_concat, $lastmodified);
 }
 
 /**
