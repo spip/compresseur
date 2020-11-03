@@ -1,7 +1,7 @@
 <paquet
 	prefix="compresseur"
 	categorie="performance"
-	version="1.14.4"
+	version="1.14.5"
 	etat="stable"
 	compatibilite="[3.3.0-dev;3.3.*]"
 	logo="images/compresseur-32.png"
@@ -11,6 +11,8 @@
 	<!-- Compression des css et javascript -->
 
 	<auteur>Collectif SPIP</auteur>
+
+	<credit lien="https://github.com/Cerdic/CSSTidy">Cerdic/CSSTidy</credit>
 
 	<licence lien="http://www.gnu.org/licenses/gpl-3.0.html">GPL</licence>
 
@@ -24,4 +26,6 @@
 	<pipeline nom="ieconfig_metas" inclure="compresseur_ieconfig.php" />
 
 	<utilise nom="porte_plume" compatibilite="[1.19.0;]" />
+
+	<procure nom="csstidy" version="1.7.3" />
 </paquet>
