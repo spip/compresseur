@@ -29,9 +29,9 @@ function formulaires_configurer_compresseur_charger_dist() {
 
 	$valeurs = array();
 
-	$valeurs['auto_compress_js'] = $GLOBALS['meta']['auto_compress_js'];
-	$valeurs['auto_compress_css'] = $GLOBALS['meta']['auto_compress_css'];
-	$valeurs['url_statique_ressources'] = $GLOBALS['meta']['url_statique_ressources'];
+	$valeurs['auto_compress_js'] = empty($GLOBALS['meta']['auto_compress_js']) ? '' : $GLOBALS['meta']['auto_compress_js'];
+	$valeurs['auto_compress_css'] = empty($GLOBALS['meta']['auto_compress_css']) ? '' : $GLOBALS['meta']['auto_compress_css'];
+	$valeurs['url_statique_ressources'] = empty($GLOBALS['meta']['url_statique_ressources']) ? '' : $GLOBALS['meta']['url_statique_ressources'];
 
 	return $valeurs;
 

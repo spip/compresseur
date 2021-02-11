@@ -134,10 +134,14 @@ function compacte_head($flux) {
 	include_spip('inc/compresseur');
 	if (!defined('_INTERDIRE_COMPACTE_HEAD')) {
 		// dans l'espace prive on compacte toujours, c'est concu pour
-		if ((!test_espace_prive() and $GLOBALS['meta']['auto_compress_css'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
+		if ((!test_espace_prive()
+				and !empty($GLOBALS['meta']['auto_compress_css'])
+				and $GLOBALS['meta']['auto_compress_css'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
 			$flux = compacte_head_files($flux, 'css');
 		}
-		if ((!test_espace_prive() and $GLOBALS['meta']['auto_compress_js'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
+		if ((!test_espace_prive()
+				and !empty($GLOBALS['meta']['auto_compress_js'])
+				and $GLOBALS['meta']['auto_compress_js'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
 			$flux = compacte_head_files($flux, 'js');
 		}
 	}
