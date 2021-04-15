@@ -1,5 +1,5 @@
 <div class='formulaire_spip formulaire_configurer formulaire_configurer_compresseur' id='formulaire_configurer_compresseur'>
-	<h3 class='titrem'>[(#CHEMIN{images/compresseur-24.png}|balise_img{'',cadre-icone})]<:compresseur:info_compresseur_titre:></h3>
+	<h3 class='titrem'>[(#CHEMIN{images/compresseur-xx.svg}|balise_img{'',cadre-icone})]<:compresseur:info_compresseur_titre:></h3>
 	
 	[<p class="reponse_formulaire reponse_formulaire_ok" role="status">(#ENV*{message_ok})</p>]
 	[<p class="reponse_formulaire reponse_formulaire_erreur" role="alert">(#ENV*{message_erreur})</p>]
@@ -15,7 +15,7 @@
 				<p class="explication"><:compresseur:explication_url_statique_ressources:></p>
 				<style>
 					.editer_url_statique_ressources input.text{padding-right: 32px;background-image: none;}
-					.editer_url_statique_ressources input.text{background-position: right center;background-repeat: no-repeat; background-image:url([(#CHEMIN_IMAGE{ok-24.png}|url_absolue{#ENV*{#GET{name},#GET{defaut}}|sinon{#URL_SITE_SPIP}|concat{'/',#EVAL{_DIR_RACINE?_DIR_RESTREINT_ABS:''}}}|protocole_implicite)]);}
+					.editer_url_statique_ressources input.text{background-position: right center;background-repeat: no-repeat; background-size:24px; background-image:url([(#CHEMIN_IMAGE{ok-24.png}|url_absolue{#ENV*{#GET{name},#GET{defaut}}|sinon{#URL_SITE_SPIP}|concat{'/',#EVAL{_DIR_RACINE?_DIR_RESTREINT_ABS:''}}}|protocole_implicite)]);}
 				</style>
 			</div>
 			<div class='fieldset'>
