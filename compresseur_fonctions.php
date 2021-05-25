@@ -107,7 +107,9 @@ function minifier($source, $format = null) {
 /**
  * Synonyme historique de minifier, pour compatibilite
  *
- * @deprecated Utiliser minifier()
+ * @deprecated 1.6 (SPIP3.1)
+ * @see minifier()
+ * @uses minifier()
  *
  * @param string $source
  * @param string $format
