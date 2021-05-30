@@ -288,7 +288,9 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 			or !lire_fichier(_DIR_RACINE . substr($css, $l), $contenu)
 		) {
 			include_spip('inc/distant');
-			if (!$contenu = recuperer_page($css)) {
+			$contenu = recuperer_url($css);
+			$contenu = $contenu['page'] ?? '';
+			if (!$contenu) {
 				return $css;
 			}
 		}
