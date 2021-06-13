@@ -9,6 +9,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'Un URL evit kas fichennoù stadegouriezh (skeudennoù, JS...) hep cookie. Peurliesañ un iz-domani all o bukañ ivez war al lec’hienn.',
+
 	// I
 	'info_compresseur_titre' => 'Gwellekaat ha gwaskañ',
 	'info_question_activer_compactage_css' => 'CSS',
