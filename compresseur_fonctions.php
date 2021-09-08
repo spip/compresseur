@@ -38,9 +38,11 @@ $GLOBALS['spip_matrice']['compresseur_embarquer_images_css'] = 'inc/compresseur_
  */
 function minifier($source, $format = null) {
 	$maybe_file = false;
-	if (strpos($source, "\n") === false
-		and strpos($source, "{") === false
-		and strpos($source, "}") === false) {
+	if (
+		strpos($source, "\n") === false
+		and strpos($source, '{') === false
+		and strpos($source, '}') === false
+	) {
 		$maybe_file = true;
 		$source = supprimer_timestamp($source);
 	}
@@ -53,7 +55,8 @@ function minifier($source, $format = null) {
 	}
 
 	// Si on n'importe pas, est-ce un fichier ?
-	if ($maybe_file
+	if (
+		$maybe_file
 		and preg_match(',\.' . $format . '$,i', $source)
 		and file_exists($source)
 	) {
@@ -79,7 +82,8 @@ function minifier($source, $format = null) {
 				. substr(md5("$source-minify"), 0, 4) . "\\2", $f, 1)
 			. '.' . $format;
 
-		if ((@filemtime($f) > @filemtime($source))
+		if (
+			(@filemtime($f) > @filemtime($source))
 			and (!defined('_VAR_MODE') or _VAR_MODE != 'recalcul')
 		) {
 			return $f;
@@ -136,14 +140,18 @@ function compacte_head($flux) {
 	include_spip('inc/compresseur');
 	if (!defined('_INTERDIRE_COMPACTE_HEAD')) {
 		// dans l'espace prive on compacte toujours, c'est concu pour
-		if ((!test_espace_prive()
+		if (
+			(!test_espace_prive()
 				and !empty($GLOBALS['meta']['auto_compress_css'])
-				and $GLOBALS['meta']['auto_compress_css'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
+				and $GLOBALS['meta']['auto_compress_css'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))
+		) {
 			$flux = compacte_head_files($flux, 'css');
 		}
-		if ((!test_espace_prive()
+		if (
+			(!test_espace_prive()
 				and !empty($GLOBALS['meta']['auto_compress_js'])
-				and $GLOBALS['meta']['auto_compress_js'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
+				and $GLOBALS['meta']['auto_compress_js'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))
+		) {
 			$flux = compacte_head_files($flux, 'js');
 		}
 	}
@@ -173,11 +181,12 @@ function compacte_head($flux) {
  *     URL du fichier sinon (la source)
  */
 function filtre_embarque_fichier($src, $base = '', $maxsize = 4096) {
-	static $mime = array();
+	static $mime = [];
 	$extension = substr(strrchr($src, '.'), 1);
 	$filename = $base . $src;
 
-	if (!file_exists($filename)
+	if (
+		!file_exists($filename)
 		or filesize($filename) > $maxsize
 		or !lire_fichier($filename, $contenu)
 	) {

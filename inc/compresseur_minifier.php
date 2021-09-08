@@ -15,7 +15,7 @@
  *
  * @package SPIP\Compresseur\Minifier
  */
-if (!defined("_ECRIRE_INC_VERSION")) {
+if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
@@ -45,65 +45,66 @@ if (!defined("_ECRIRE_INC_VERSION")) {
  */
 function minifier_css($contenu, $options = '') {
 	if (is_string($options) and $options) {
-		if ($options == "all") // facile : media all => ne rien preciser
-		{
-			$options = "";
+		if ($options == 'all') { // facile : media all => ne rien preciser
+		$options = '';
 		} elseif (
-			strpos($contenu, "@media") == false
-			and strpos($contenu, "@import") == false
-			and strpos($contenu, "@font-face") == false
+			strpos($contenu, '@media') == false
+			and strpos($contenu, '@import') == false
+			and strpos($contenu, '@font-face') == false
 		) {
 			$contenu = "@media $options {\n$contenu\n}\n";
-			$options = "";
+			$options = '';
 		} else {
-			$options = array('media' => $options);
+			$options = ['media' => $options];
 		}
 	}
 	if (!is_array($options)) {
-
 		// nettoyer la css de tout ce qui sert pas
 		// pas de commentaires
 		// https://core.spip.net/issues/3987 sauf les commentaires important commençant par un ! qui sont en general des credits
-		$contenu = preg_replace(",/\*(\*|[^!].*\*)/,Ums", "", $contenu);
-		$contenu = preg_replace(",\s//[^\n]*\n,Ums", "", $contenu);
+		$contenu = preg_replace(',/\*(\*|[^!].*\*)/,Ums', '', $contenu);
+		$contenu = preg_replace(",\s//[^\n]*\n,Ums", '', $contenu);
 		// espaces autour des retour lignes
 		$contenu = str_replace("\r\n", "\n", $contenu);
 		$contenu = preg_replace(",\s+\n,ms", "\n", $contenu);
 		$contenu = preg_replace(",\n\s+,ms", "\n", $contenu);
 		// pas d'espaces consecutifs
-		$contenu = preg_replace(",\s(?=\s),Ums", "", $contenu);
+		$contenu = preg_replace(',\s(?=\s),Ums', '', $contenu);
 		// pas d'espaces avant et apres { ; ,
-		$contenu = preg_replace("/\s?({|;|,)\s?/ms", "$1", $contenu);
+		$contenu = preg_replace('/\s?({|;|,)\s?/ms', '$1', $contenu);
 		// supprimer les espaces devant : sauf si suivi d'une lettre (:after, :first...)
-		$contenu = preg_replace("/\s:([^a-z])/ims", ":$1", $contenu);
+		$contenu = preg_replace('/\s:([^a-z])/ims', ':$1', $contenu);
 		// supprimer les espaces apres :
-		$contenu = preg_replace("/:\s/ms", ":", $contenu);
+		$contenu = preg_replace('/:\s/ms', ':', $contenu);
 		// pas d'espaces devant }
-		$contenu = preg_replace("/\s}/ms", "}", $contenu);
+		$contenu = preg_replace('/\s}/ms', '}', $contenu);
 
 		// ni de point virgule sur la derniere declaration
-		$contenu = preg_replace("/;}/ms", "}", $contenu);
+		$contenu = preg_replace('/;}/ms', '}', $contenu);
 		// pas d'espace avant !important
-		$contenu = preg_replace("/\s!\s?important/ms", "!important", $contenu);
+		$contenu = preg_replace('/\s!\s?important/ms', '!important', $contenu);
 		// passser les codes couleurs en 3 car si possible
 		// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
-		$contenu = preg_replace(";([:\s,(])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6)(?=[^\w\-]);i", "$1#$2$4$6",
-			$contenu);
+		$contenu = preg_replace(
+			";([:\s,(])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6)(?=[^\w\-]);i",
+			'$1#$2$4$6',
+			$contenu
+		);
 		// remplacer font-weight:bold par font-weight:700
-		$contenu = preg_replace("/font-weight:bold(?!er)/ims", "font-weight:700", $contenu);
+		$contenu = preg_replace('/font-weight:bold(?!er)/ims', 'font-weight:700', $contenu);
 		// remplacer font-weight:normal par font-weight:400
-		$contenu = preg_replace("/font-weight:normal/ims", "font-weight:400", $contenu);
+		$contenu = preg_replace('/font-weight:normal/ims', 'font-weight:400', $contenu);
 
 		// si elle est 0, enlever la partie entière des unites decimales
-		$contenu = preg_replace("/\b0+\.(\d+em)/ims", ".$1", $contenu);
+		$contenu = preg_replace("/\b0+\.(\d+em)/ims", '.$1', $contenu);
 		// supprimer les declarations vides
-		$contenu = preg_replace(",(^|})([^{}]*){},Ums", "$1", $contenu);
+		$contenu = preg_replace(',(^|})([^{}]*){},Ums', '$1', $contenu);
 		// supprimer l'unité quand la valeur est zéro (sauf pour % car casse les @keyframes cf https://core.spip.net/issues/3128 et sauf pour les chaînes en base64 cf https://core.spip.net/issues/3991)
 		$contenu = preg_replace("/([^0-9.]\b0)(em|px|pt|rem|ex|pc|vh|vw|vmin|vmax|cm|mm|in|ch)\b/ms", '$1', $contenu);
 
 		// renommer les couleurs par leurs versions courtes quand c'est possible
-		$colors = array(
-			'source' => array(
+		$colors = [
+			'source' => [
 				'black',
 				'fuchsia',
 				'white',
@@ -118,8 +119,8 @@ function minifier_css($contenu, $options = '') {
 				'#c0c0c0',
 				'#808080',
 				'#f00'
-			),
-			'replace' => array(
+			],
+			'replace' => [
 				'#000',
 				'#F0F',
 				'#FFF',
@@ -134,21 +135,21 @@ function minifier_css($contenu, $options = '') {
 				'silver',
 				'gray',
 				'red'
-			)
-		);
+			]
+		];
 		foreach ($colors['source'] as $k => $v) {
-			$colors['source'][$k] = ";([:\s,(])" . $v . "(?=[^\w\-]);ms";
-			$colors['replace'][$k] = "$1" . $colors['replace'][$k];
+			$colors['source'][$k] = ';([:\s,(])' . $v . '(?=[^\w\-]);ms';
+			$colors['replace'][$k] = '$1' . $colors['replace'][$k];
 		}
 		$contenu = preg_replace($colors['source'], $colors['replace'], $contenu);
 
 		// raccourcir les padding qui le peuvent (sur 3 ou 2 valeurs)
-		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims", "padding:$1 $2 $3", $contenu);
-		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims", "padding:$1 $2$4", $contenu);
+		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims", 'padding:$1 $2 $3', $contenu);
+		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims", 'padding:$1 $2$4', $contenu);
 
 		// raccourcir les margin qui le peuvent (sur 3 ou 2 valeurs)
-		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims", "margin:$1 $2 $3", $contenu);
-		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims", "margin:$1 $2$4", $contenu);
+		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims", 'margin:$1 $2 $3', $contenu);
+		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims", 'margin:$1 $2$4', $contenu);
 
 		$contenu = trim($contenu);
 
@@ -160,17 +161,17 @@ function minifier_css($contenu, $options = '') {
 
 		// modele de sortie plus ou moins compact
 		$template = 'high';
-		if (isset($options['template']) and in_array($options['template'], array('low', 'default', 'high', 'highest'))) {
+		if (isset($options['template']) and in_array($options['template'], ['low', 'default', 'high', 'highest'])) {
 			$template = $options['template'];
 		}
 		// @media eventuel pour prefixe toutes les css
 		// et regrouper plusieurs css entre elles
-		$media = "";
+		$media = '';
 		if (isset($options['media'])) {
-			$media = "@media " . $options['media'] . " ";
+			$media = '@media ' . $options['media'] . ' ';
 		}
 
-		include_spip("lib/csstidy/class.csstidy");
+		include_spip('lib/csstidy/class.csstidy');
 		$css = new csstidy();
 
 		// essayer d'optimiser les font, margin, padding avec des ecritures raccourcies
@@ -248,13 +249,13 @@ function callback_minifier_js_file($contenu, $balise) {
 function minifier_html($flux) {
 
 	// si pas de contenu ni de balise html, ne rien faire
-	if (!strlen($flux) or strpos($flux, "<") === false) {
+	if (!strlen($flux) or strpos($flux, '<') === false) {
 		return $flux;
 	}
 
 	static $options = null;
 	if (is_null($options)) {
-		$options = array();
+		$options = [];
 		if ($GLOBALS['meta']['auto_compress_css'] == 'oui') {
 			$options['cssMinifier'] = 'minifier_css';
 		}

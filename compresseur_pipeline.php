@@ -74,7 +74,7 @@ function compresseur_affiche_milieu($flux) {
 		// Compression http et compactages CSS ou JS
 		$flux['data'] .= recuperer_fond(
 			'prive/squelettes/inclure/configurer',
-			array('configurer' => 'configurer_compresseur')
+			['configurer' => 'configurer_compresseur']
 		);
 	}
 
