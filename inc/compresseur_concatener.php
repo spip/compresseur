@@ -15,7 +15,7 @@
  *
  * @package SPIP\Compresseur\Concatener
  */
-if (!defined("_ECRIRE_INC_VERSION")) {
+if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
@@ -43,10 +43,10 @@ if (!defined("_ECRIRE_INC_VERSION")) {
  * @return array
  *     Tableau a 2 entrées retournant le nom du fichier et des commentaires HTML à insérer dans la page initiale
  */
-function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
-	$nom_fichier = "";
+function concatener_fichiers($files, $format = 'js', $callbacks = []) {
+	$nom_fichier = '';
 	if (!is_array($files) && $files) {
-		$files = array($files);
+		$files = [$files];
 	}
 	if (count($files)) {
 		$callback_min = isset($callbacks['each_min']) ? $callbacks['each_min'] : 'concatener_callback_identite';
@@ -64,9 +64,9 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 			or !file_exists($nom_fichier)
 			or filemtime($nom_fichier) < $lastmodified
 		) {
-			spip_log("concatener_fichiers: Recalculer $nom_fichier plus a jour", "compresseur" . _LOG_DEBUG);
-			$concatenation = "";
-			$comms = array();
+			spip_log("concatener_fichiers: Recalculer $nom_fichier plus a jour", 'compresseur' . _LOG_DEBUG);
+			$concatenation = '';
+			$comms = [];
 			$total = 0;
 			$files2 = false;
 			foreach ($files as $key => $file) {
@@ -74,7 +74,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 					// c'est un fichier
 					$comm = $file;
 					// enlever le timestamp si besoin
-					$file = preg_replace(",[?].+$,", '', $file);
+					$file = preg_replace(',[?].+$,', '', $file);
 
 					// preparer le fichier si necessaire
 					if ($callback_pre) {
@@ -94,8 +94,10 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 
 					// preparer le contenu si necessaire
 					if ($callback_pre) {
-						$contenu = $callback_pre($contenu,
-							url_absolue(_DIR_RESTREINT ? generer_url_public($file[0], $file[1]) : $url_base));
+						$contenu = $callback_pre(
+							$contenu,
+							url_absolue(_DIR_RESTREINT ? generer_url_public($file[0], $file[1]) : $url_base)
+						);
 					}
 					// enlever le var_mode si present pour retrouver la css minifiee standard
 					if (strpos($file[1], 'var_mode') !== false) {
@@ -152,12 +154,10 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 				// car il y a le risque qu'un process concurrent soit juste sur le point de le processer aussi et produirait alors du vide
 			}
 		}
-
-
 	}
 
 	// Le commentaire detaille n'apparait qu'au recalcul, pour debug
-	return array($nom_fichier, (isset($comms) and $comms) ? "<!-- $comms -->\n" : '');
+	return [$nom_fichier, (isset($comms) and $comms) ? "<!-- $comms -->\n" : ''];
 }
 
 /**
@@ -175,10 +175,10 @@ function concatener_nom_fichier_concat($dir, $files, $callbacks, $format) {
 	$file_wo_timestamp = [];
 	// on ignore les cles : seul le fichier inclu compte, pas la forme exacte de la balise html dans laquelle il est insere
 	foreach ($files as $k => $file) {
-		if (!is_array($file)){
-			if (strpos($file, "?")!==false){
+		if (!is_array($file)) {
+			if (strpos($file, '?') !== false) {
 				$file = explode('?', $file, 2);
-				if (is_numeric(end($file))){
+				if (is_numeric(end($file))) {
 					$lastmodified = max($lastmodified, end($file));
 				}
 				$file = reset($file);
@@ -187,7 +187,7 @@ function concatener_nom_fichier_concat($dir, $files, $callbacks, $format) {
 		$file_wo_timestamp[] = $file;
 	}
 	$nom_fichier_concat = $dir . md5(json_encode($file_wo_timestamp) . json_encode($callbacks)) . ".$format";
-	return array($nom_fichier_concat, $lastmodified);
+	return [$nom_fichier_concat, $lastmodified];
 }
 
 /**
@@ -218,7 +218,7 @@ function &concatener_callback_identite(&$contenu) {
  *
  */
 function &array_replace_key($tableau, $orig_key, $new_key, $new_value = null) {
-	$t = array();
+	$t = [];
 	foreach ($tableau as $k => $v) {
 		if ($k == $orig_key) {
 			$k = $new_key;

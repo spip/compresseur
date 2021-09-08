@@ -27,14 +27,13 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  **/
 function formulaires_configurer_compresseur_charger_dist() {
 
-	$valeurs = array();
+	$valeurs = [];
 
 	$valeurs['auto_compress_js'] = empty($GLOBALS['meta']['auto_compress_js']) ? '' : $GLOBALS['meta']['auto_compress_js'];
 	$valeurs['auto_compress_css'] = empty($GLOBALS['meta']['auto_compress_css']) ? '' : $GLOBALS['meta']['auto_compress_css'];
 	$valeurs['url_statique_ressources'] = empty($GLOBALS['meta']['url_statique_ressources']) ? '' : $GLOBALS['meta']['url_statique_ressources'];
 
 	return $valeurs;
-
 }
 
 /**
@@ -44,10 +43,10 @@ function formulaires_configurer_compresseur_charger_dist() {
  *     Tableau des erreurs
  **/
 function formulaires_configurer_compresseur_verifier_dist() {
-	$erreurs = array();
+	$erreurs = [];
 
 	// les checkbox
-	foreach (array('auto_compress_js', 'auto_compress_css') as $champ) {
+	foreach (['auto_compress_js', 'auto_compress_css'] as $champ) {
 		if (_request($champ) != 'oui') {
 			set_request($champ, 'non');
 		}
@@ -77,5 +76,5 @@ function formulaires_configurer_compresseur_traiter_dist() {
 	include_spip('inc/config');
 	appliquer_modifs_config();
 
-	return array('message_ok' => _T('config_info_enregistree'));
+	return ['message_ok' => _T('config_info_enregistree')];
 }
