@@ -182,6 +182,12 @@ function compacte_head($flux) {
  */
 function filtre_embarque_fichier($src, $base = '', $maxsize = 4096) {
 	static $mime = [];
+
+	if (strpos($src, '?') !== false) {
+		include_spip('inc/filtres');
+		$src = supprimer_timestamp($src);
+	}
+
 	$extension = substr(strrchr($src, '.'), 1);
 	$filename = $base . $src;
 
