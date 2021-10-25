@@ -173,7 +173,13 @@ function compacte_head($flux) {
  *     URL du fichier sinon (la source)
  */
 function filtre_embarque_fichier($src, $base = '', $maxsize = 4096) {
-	static $mime = array();
+	static $mime = [];
+
+	if (strpos($src, '?') !== false) {
+		include_spip('inc/filtres');
+		$src = supprimer_timestamp($src);
+	}
+
 	$extension = substr(strrchr($src, '.'), 1);
 	$filename = $base . $src;
 
