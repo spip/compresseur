@@ -202,7 +202,8 @@ function minifier_js($flux) {
 	if (!strlen($flux)) {
 		return $flux;
 	}
-
+/*
+	spip_timer('dean');
 	include_spip('lib/JavascriptPacker/class.JavaScriptPacker');
 	$packer = new JavaScriptPacker($flux, 0, true, false);
 
@@ -212,8 +213,27 @@ function minifier_js($flux) {
 
 		return $flux;
 	}
+	$t1 = spip_timer('dean');
 
-	return $t;
+	spip_timer('jsh');
+*/
+
+	include_spip("lib/JShrink/src/JShrink/Minifier");
+	$jsh = JShrink\Minifier::minify($flux);
+/*
+	$t2 = spip_timer('jsh');
+
+
+	$length_ori = strlen($flux);
+	$length_dean = strlen($t);
+	$length_jsh = strlen($jsh);
+
+	$r1 = round($length_dean/$length_ori*100,1);
+	$r2 = round($length_jsh/$length_ori*100,1);
+	spip_log("minifier_js : Original $length_ori, Dean $r1% ($length_dean) en $t1, JSH $r2% ($length_jsh) en $t2", "jsdbg");
+*/
+
+	return $jsh;
 }
 
 
