@@ -38,7 +38,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  **/
 function compresseur_embarquer_images_css($contenu, $source, $source_file = null) {
 	#$path = suivre_lien(url_absolue($source),'./');
-	$base = ($source_file ? $source_file : $source);
+	$base = ($source_file ?: $source);
 	$base = ((substr($base, -1) == '/') ? $base : (dirname($base) . '/'));
 	$filtre_embarque_fichier = chercher_filtre('filtre_embarque_fichier');
 	if (!defined('_CSS_EMBARQUE_FICHIER_MAX_SIZE')) {
@@ -47,9 +47,7 @@ function compresseur_embarquer_images_css($contenu, $source, $source_file = null
 
 	return preg_replace_callback(
 		",url\s*\(\s*['\"]?([^'\"/][^:]*[.](png|gif|jpg))['\"]?\s*\),Uims",
-		function ($x) use ($filtre_embarque_fichier, $base) {
-			return 'url("' . $filtre_embarque_fichier($x[1], $base, _CSS_EMBARQUE_FICHIER_MAX_SIZE) . '")';
-		},
+		fn($x) => 'url("' . $filtre_embarque_fichier($x[1], $base, _CSS_EMBARQUE_FICHIER_MAX_SIZE) . '")',
 		$contenu
 	);
 }

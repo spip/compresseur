@@ -37,6 +37,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  *   Code HTML de la balise <script>
  */
 function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = '') {
+	$jQl = null;
 	$src = timestamp($src);
 	// option chargement JS async par jQl
 	if (defined('_JS_ASYNC_LOAD') and !test_espace_prive()) {
@@ -206,13 +207,13 @@ function compacte_head_files($flux, $format) {
 	include_spip('inc/compresseur_concatener');
 	include_spip('inc/compresseur_minifier');
 	if (
-		list($src, $comms) = concatener_fichiers($files, $format, $callbacks)
+		[$src, $comms] = concatener_fichiers($files, $format, $callbacks)
 		and $src
 	) {
 		$compacte_ecrire_balise = charger_fonction("compresseur_ecrire_balise_$format", '');
 		$files = array_keys($files);
 		// retrouver la position du premier fichier compacte
-		$pos = strpos($flux, reset($files));
+		$pos = strpos($flux, (string) reset($files));
 		// supprimer tous les fichiers compactes du flux
 		$flux = str_replace($files, '', $flux);
 		// inserer la balise (deleguer a la fonction, en lui donnant le necessaire)
@@ -255,6 +256,7 @@ function compresseur_liste_fonctions_prepare_css() {
  * @return bool|int|null|string
  */
 function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions = null) {
+	$contenu = [];
 	if ($is_inline) {
 		return compresseur_callback_prepare_css_inline($css, $is_inline);
 	}
@@ -434,6 +436,7 @@ function css_resolve_atimport($contenu, $url_base, $filename) {
  * @return bool|string
  */
 function css_regroup_atimport($nom_tmp, $nom) {
+	$contenu = null;
 	lire_fichier($nom_tmp, $contenu);
 	if (!$contenu or strpos($contenu, '@import') === false) {
 		return false;

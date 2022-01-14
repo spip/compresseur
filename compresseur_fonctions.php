@@ -37,6 +37,7 @@ $GLOBALS['spip_matrice']['compresseur_embarquer_images_css'] = 'inc/compresseur_
  *     - Chemin vers un fichier ayant le contenu minifié (si source est un fichier)
  */
 function minifier($source, $format = null) {
+	$contenu = null;
 	$maybe_file = false;
 	if (
 		strpos($source, "\n") === false
@@ -181,6 +182,7 @@ function compacte_head($flux) {
  *     URL du fichier sinon (la source)
  */
 function filtre_embarque_fichier($src, $base = '', $maxsize = 4096) {
+	$contenu = null;
 	static $mime = [];
 
 	if (strpos($src, '?') !== false) {

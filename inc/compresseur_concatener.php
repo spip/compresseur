@@ -49,8 +49,8 @@ function concatener_fichiers($files, $format = 'js', $callbacks = []) {
 		$files = [$files];
 	}
 	if (count($files)) {
-		$callback_min = isset($callbacks['each_min']) ? $callbacks['each_min'] : 'concatener_callback_identite';
-		$callback_pre = isset($callbacks['each_pre']) ? $callbacks['each_pre'] : '';
+		$callback_min = $callbacks['each_min'] ?? 'concatener_callback_identite';
+		$callback_pre = $callbacks['each_pre'] ?? '';
 		$url_base = self('&');
 
 		// on trie la liste de files pour calculer le nom
@@ -58,7 +58,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = []) {
 		// si on renome une url a la volee pour enlever le var_mode=recalcul
 		// mais attention, il faut garder l'ordre initial pour la minification elle meme !
 		$dir = sous_repertoire(_DIR_VAR, 'cache-' . $format);
-		list($nom_fichier, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
+		[$nom_fichier, $lastmodified] = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 		if (
 			(defined('_VAR_MODE') and _VAR_MODE == 'recalcul')
 			or !file_exists($nom_fichier)
@@ -129,14 +129,14 @@ function concatener_fichiers($files, $format = 'js', $callbacks = []) {
 			// donc jamais utile
 			if ($files2) {
 				$files = $files2;
-				list($nom_fichier, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
+				[$nom_fichier, $lastmodified] = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 
 			$nom_fichier_tmp = $nom_fichier;
-			$final_callback = (isset($callbacks['all_min']) ? $callbacks['all_min'] : false);
+			$final_callback = ($callbacks['all_min'] ?? false);
 			if ($final_callback) {
 				unset($callbacks['all_min']);
-				list($nom_fichier_tmp, $lastmodified) = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
+				[$nom_fichier_tmp, $lastmodified] = concatener_nom_fichier_concat($dir, $files, $callbacks, $format);
 			}
 			// ecrire
 			ecrire_fichier_calcule_si_modifie($nom_fichier_tmp, $concatenation);
@@ -186,7 +186,7 @@ function concatener_nom_fichier_concat($dir, $files, $callbacks, $format) {
 		}
 		$file_wo_timestamp[] = $file;
 	}
-	$nom_fichier_concat = $dir . md5(json_encode($file_wo_timestamp) . json_encode($callbacks)) . ".$format";
+	$nom_fichier_concat = $dir . md5(json_encode($file_wo_timestamp, JSON_THROW_ON_ERROR) . json_encode($callbacks, JSON_THROW_ON_ERROR)) . ".$format";
 	return [$nom_fichier_concat, $lastmodified];
 }
 
