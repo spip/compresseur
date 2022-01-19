@@ -88,6 +88,8 @@ class JavaScriptPacker {
 		'High ASCII' => 95
 	);
 
+	var $PHP_ISSUE_81101 = false;
+
 // https://code.spip.net/@JavaScriptPacker
 	function __construct($_script, $_encoding = 62, $_fastDecode = true, $_specialChars = false)
 	{
@@ -97,6 +99,14 @@ class JavaScriptPacker {
 		$this->_encoding = min((int)$_encoding, 95);
 		$this->_fastDecode = $_fastDecode;
 		$this->_specialChars = $_specialChars;
+
+		// https://bugs.php.net/bug.php?id=81101
+		// https://git.spip.net/spip/compresseur/issues/4843
+		if (defined("PCRE_VERSION")
+			and strpos(PCRE_VERSION, "10.37") === 0
+			and ini_get("pcre.jit")) {
+			$this->$PHP_ISSUE_81101 = true;
+		}
 	}
 
 // https://code.spip.net/@pack
@@ -137,7 +147,9 @@ class JavaScriptPacker {
 		$parser->add('/\'[^\'\\n\\r]*\'/',$this->IGNORE);
 		$parser->add('/"[^"\\n\\r]*"/', $this->IGNORE);
 		// remove comments
-		$parser->add('/\\/\\/[^\\n\\r]*[\\n\\r]/', "\n");
+		if (!$this->$PHP_ISSUE_81101) {
+			$parser->add('/\\/\\/[^\\n\\r]*[\\n\\r]/', "\n");
+		}
 		$parser->add('/\\/\\*[^*]*\\*+([^\\/][^*]*\\*+)*\\//', ' ');
 		// protect regular expressions
 		$parser->add('/\\s+(\\/[^\\/\\n\\r\\*][^\\/\\n\\r]*\\/g?i?)/', '$2'); // IGNORE
