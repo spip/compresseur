@@ -12,7 +12,7 @@ parameters:
 
 		-
 			message: "#^Function include_spip not found\\.$#"
-			count: 3
+			count: 4
 			path: compresseur_fonctions.php
 
 		-
@@ -42,7 +42,7 @@ parameters:
 
 		-
 			message: "#^Function supprimer_timestamp not found\\.$#"
-			count: 1
+			count: 2
 			path: compresseur_fonctions.php
 
 		-
@@ -53,11 +53,6 @@ parameters:
 		-
 			message: "#^Function url_absolue_css not found\\.$#"
 			count: 1
-			path: compresseur_fonctions.php
-
-		-
-			message: "#^Undefined variable\\: \\$contenu$#"
-			count: 4
 			path: compresseur_fonctions.php
 
 		-
@@ -122,7 +117,7 @@ parameters:
 
 		-
 			message: "#^Function ecrire_fichier_calcule_si_modifie not found\\.$#"
-			count: 2
+			count: 1
 			path: inc/compresseur.php
 
 		-
@@ -197,16 +192,6 @@ parameters:
 
 		-
 			message: "#^Function url_de_base not found\\.$#"
-			count: 2
-			path: inc/compresseur.php
-
-		-
-			message: "#^Undefined variable\\: \\$contenu$#"
-			count: 4
-			path: inc/compresseur.php
-
-		-
-			message: "#^Undefined variable\\: \\$jQl$#"
 			count: 2
 			path: inc/compresseur.php
 
