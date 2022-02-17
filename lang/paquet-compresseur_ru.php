@@ -10,6 +10,6 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// C
-	'compresseur_description' => 'Сжимает css и javascript файлы для уменьшения времени загрузки. Используется как на основном сайте, так и в его администраторской части <code>ecrire/</code> ',
+	'compresseur_description' => 'Сжимает css и javascript файлов на публичной части сайта и в панели управления <code>ecrire/</code> ',
 	'compresseur_slogan' => 'Плагин для сжатия CSS и Javascript файлов'
 );
