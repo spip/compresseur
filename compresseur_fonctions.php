@@ -45,6 +45,7 @@ function minifier($source, $format = null) {
 		and strpos($source, '}') === false
 	) {
 		$maybe_file = true;
+		include_spip('inc/filtres');
 		$source = supprimer_timestamp($source);
 	}
 	if (!$format and preg_match(',\.(js|css)$,', $source, $r)) {
