@@ -13,8 +13,7 @@
 
 // si un buffer est deja ouvert, stop
 if (
-	$GLOBALS['flag_ob']
-	and defined('_AUTO_GZIP_HTTP') and _AUTO_GZIP_HTTP
+	defined('_AUTO_GZIP_HTTP') and _AUTO_GZIP_HTTP
 	and strlen(ob_get_contents()) == 0
 	and !headers_sent()
 ) {
@@ -25,8 +24,6 @@ if (
 		and (strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.0') === false)
 		// special bug Apache2x
 		#&& !preg_match(",Apache(-[^ ]+)?/2,i", $_SERVER['SERVER_SOFTWARE'])
-		// test suspendu: http://article.gmane.org/gmane.comp.web.spip.devel/32038/
-		#&& !($GLOBALS['flag_sapi_name'] AND preg_match(",^apache2,", @php_sapi_name()))
 		// si la compression est deja commencee, stop
 		# && !@ini_get("zlib.output_compression")
 		and !@ini_get('output_handler')
