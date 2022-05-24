@@ -78,14 +78,6 @@ if (rtrim($compacte) != rtrim($expected)) {
 	$ok = false;
 }
 
-lire_fichier(__DIR__ . '/css/expected_url_abs.css', $expected);
-lire_fichier(__DIR__ . '/css/source_url_abs.css', $source);
-$compacte = urls_absolues_css($source, 'http://example.org/squelettes/source.css');
-if (rtrim($compacte) != rtrim($expected)) {
-	erreur('urls_absolues_css()', $compacte, $expected);
-	$ok = false;
-}
-
 
 if ($ok) {
 	echo 'OK';
