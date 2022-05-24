@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- #4851 Fix un bug sur les shorthands padding/margin
+
+
 ## [2.0.4] - 2022-05-20
 
 ### Added
