@@ -96,7 +96,7 @@ function minifier_css($contenu, $options = '') {
 		$contenu = preg_replace('/font-weight:normal/ims', 'font-weight:400', $contenu);
 
 		// si elle est 0, enlever la partie entière des unites decimales
-		$contenu = preg_replace("/\b0+\.(\d+em)/ims", '.$1', $contenu);
+		$contenu = preg_replace("/\b0+\.(\d+(r?em|vh|vw))/ims", '.$1', $contenu);
 		// supprimer les declarations vides
 		$contenu = preg_replace(',(^|})([^{}]*){},Ums', '$1', $contenu);
 		// supprimer l'unité quand la valeur est zéro (sauf pour % car casse les @keyframes cf https://core.spip.net/issues/3128 et sauf pour les chaînes en base64 cf https://core.spip.net/issues/3991)
