@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Fix un bug sur les shorthands padding/margin https://git.spip.net/spip/compresseur/issues/4851
 - Refactoring des tests unitaires avec PHPUnit
 
 ### Added
