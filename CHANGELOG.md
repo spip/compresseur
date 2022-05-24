@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Refactoring des tests unitaires avec PHPUnit
+
 ### Added
 
 - Fichiers Readme et Changelog
