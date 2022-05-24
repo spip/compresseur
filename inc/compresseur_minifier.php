@@ -144,11 +144,11 @@ function minifier_css($contenu, $options = '') {
 		$contenu = preg_replace($colors['source'], $colors['replace'], $contenu);
 
 		// raccourcir les padding qui le peuvent (sur 3 ou 2 valeurs)
-		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims", 'padding:$1 $2 $3', $contenu);
+		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2)([;}!]),ims", 'padding:$1 $2 $3$5', $contenu);
 		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims", 'padding:$1 $2$4', $contenu);
 
 		// raccourcir les margin qui le peuvent (sur 3 ou 2 valeurs)
-		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims", 'margin:$1 $2 $3', $contenu);
+		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2)([;}!]),ims", 'margin:$1 $2 $3$5', $contenu);
 		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims", 'margin:$1 $2$4', $contenu);
 
 		$contenu = trim($contenu);
