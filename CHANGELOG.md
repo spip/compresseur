@@ -8,6 +8,7 @@
 
 ### Changed
 
+- Refactoring des tests unitaires avec PHPUnit
 - Compatible SPIP 4.2-dev
 
 ### Removed
