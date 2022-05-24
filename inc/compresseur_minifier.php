@@ -166,8 +166,9 @@ function minifier_css($contenu, $options = '') {
 		}
 		// @media eventuel pour prefixe toutes les css
 		// et regrouper plusieurs css entre elles
+		// on ignore media=all par comodite, comme pour le compresseur simple (c'est le par defaut)
 		$media = '';
-		if (isset($options['media'])) {
+		if (!empty($options['media']) and $options['media'] !== 'all') {
 			$media = '@media ' . $options['media'] . ' ';
 		}
 
