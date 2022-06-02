@@ -4,7 +4,7 @@
 
 ### Added
 
-- Fichiers Readme et Changelog
+- Fichier README.md
 
 ### Changed
 
